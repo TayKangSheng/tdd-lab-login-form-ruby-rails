@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
 
   describe '.signup' do
     let(:signup_params) do
-      { username: 'demo1', password: 'demo1234', password_confirm: 'demo1234', email: 'demo1@example.com' }
+      { username: 'demo1', password: 'demo1234567890', password_confirm: 'demo1234567890', email: 'demo1@example.com' }
     end
     let(:subject) { User.new(signup_params) }
 
@@ -25,13 +25,25 @@ RSpec.describe User, type: :model do
 
     context 'ensure password is matching' do
       let(:signup_params) do
-        { username: 'demo1', password: 'demo1234', password_confirm: 'wrong_match', email: 'demo1@example.com' }
+        { username: 'demo1', password: 'demo1234567890', password_confirm: 'wrong_match', email: 'demo1@example.com' }
       end
 
       it 'invalidates' do
         User.signup(subject)
         expect(subject.errors).to_not be_empty
         expect(subject.errors.full_messages_for(:base)).to include('Passwords do not match')
+      end
+    end
+
+    context 'ensure password length is >= 12' do
+      let(:signup_params) do
+        { username: 'demo1', password: 'demo1234', password_confirm: 'demo1234', email: 'demo1@example.com' }
+      end
+
+      it 'invalidates' do
+        User.signup(subject)
+        expect(subject.errors).to_not be_empty
+        expect(subject.errors.full_messages_for(:base)).to include('Password should be longer than 12 characters')
       end
     end
 

@@ -13,7 +13,7 @@ RSpec.describe 'Signups', type: :request do
 
   describe 'POST /signup' do
     it 'returns http success' do
-      post '/signup', params: { username: 'demo1', password: 'demo1234', password_confirm: 'demo1234', email: 'demo1@example.com' }
+      post '/signup', params: { username: 'demo1', password: 'demo1234567890', password_confirm: 'demo1234567890', email: 'demo1@example.com' }
       expect(response).to redirect_to(welcome_users_path)
       follow_redirect!
 
